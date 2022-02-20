@@ -4,19 +4,21 @@
 # Manage bookmarks
 #TODO evict duplicates in file
 
+file=~/.data/webmarks
+
 openLink() {
 	if [[ "$1" =~ ^gopher* ]]; then
 		alacritty -e lynx $1 
 	else
-		$BROWSER $1 &
+		brave $1 &
 	fi
 }
 
 if [ -n "$1" ]; then
-	echo $@ >> ~/webmarks.txt	
+	echo $@ >> $file
 	exit
 fi
 
-choose=$(cat ~/webmarks.txt | dmenu | awk '{print $1}')
+choose=$(cat $file | dmenu | awk '{print $1}')
 [ "$?" = "0" ] && [ -n "$choose" ] && openLink $choose 
 

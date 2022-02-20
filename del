@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mv $1 ~/Lixeira
+echo "$1 moved to ~/Lixeira"
+

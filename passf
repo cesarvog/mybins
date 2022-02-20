@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# User pass + fzf
+
+currentcd=$pwd
+cd ~/.password-store/
+path=$(fzf)
+
+[ -z "$path" ] && exit 0
+
+# Remove .gpg from path
+path=$(echo $path | rev | cut -c5- | rev)
+
+echo "path $path"
+cd $currentcd
+pass "$path"
+
