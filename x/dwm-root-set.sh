@@ -5,7 +5,16 @@
 
 dte() {
 		echo -e "$(date +%d.%m) 🕒 $(date +%H:%M)"
-	}
+}
+
+calc(){ awk "BEGIN { print "$*" }"; }
+fmtmoney() {
+	r=$1
+	r=$(calc $r/1000)
+	r=$(echo "$r" | rev | cut -c3- | rev)
+	r="$r K"
+	echo -e $r
+}
 
 cpu(){
 		read cpu a b c previdle rest < /proc/stat
@@ -26,11 +35,13 @@ mem(){
 
 btc() {
 	saida=`curl -s https://www.mercadobitcoin.net/api/BTC/ticker | jq -r '.ticker.last' | cut -d . -f 1`
+	saida=$(fmtmoney $saida)
 	echo -e "btc: $saida"
 }
 
 eth() {
 	saida=`curl -s https://www.mercadobitcoin.net/api/ETH/ticker | jq -r '.ticker.last' | cut -d . -f 1`
+	saida=$(fmtmoney $saida)
 	echo -e "eth: $saida"
 }
 
